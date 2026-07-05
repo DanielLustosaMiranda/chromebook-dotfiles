@@ -1,0 +1,196 @@
+# i3 config file (v4)
+# mod = capslock
+exec_always --no-startup-id setxkbmap -option caps:super
+set $mod Mod4
+
+# Font
+font pango:DejaVu Sans Mono 10
+# Autostart .desktop files
+exec --no-startup-id dex --autostart --environment i3
+
+# Disable screen blanking and power-saving
+exec_always --no-startup-id xset s off
+exec_always --no-startup-id xset s noblank
+exec_always --no-startup-id xset -dpms
+# Applets
+exec --no-startup-id nm-applet
+
+# Volume control
+set $refresh_i3status killall -SIGUSR1 i3status
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +1% && $refresh_i3status
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -1% && $refresh_i3status
+bindsym XF86AudioMute        exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
+bindsym XF86AudioMicMute     exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
+bindsym Mod1+k               exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +1% && $refresh_i3status
+bindsym Mod1+j               exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -1% && $refresh_i3status
+
+# Directly switch to TTYs using Ctrl + Alt + Number
+bindsym Control+Mod1+1 exec --no-startup-id sudo chvt 1
+bindsym Control+Mod1+2 exec --no-startup-id sudo chvt 2
+
+# Switch back to your i3 Graphical Desktop (usually TTY 7 or TTY 1 on Debian)
+bindsym Control+Mod1+7 exec --no-startup-id sudo chvt 7
+
+
+# Mouse drag for floating windows
+floating_modifier $mod
+bindsym $mod+Shift+f floating toggle
+
+# Launch terminal / apps
+bindsym $mod+Return exec rofi -show drun
+bindsym $mod+space  exec kitty
+
+# Window control
+bindsym $mod+f fullscreen toggle
+bindsym $mod+q kill
+
+# Focus (Vim style)
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+
+# Move (Vim style)
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+
+# Splitting
+bindsym $mod+Shift+v split h
+bindsym $mod+v        split v
+
+# Resize mode (Vim style only)
+mode "resize" {
+    bindsym h resize shrink width 10 px or 10 ppt
+    bindsym l resize grow width  10 px or 10 ppt
+    bindsym j resize shrink height 10 px or 10 ppt
+    bindsym k resize grow height  10 px or 10 ppt
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+bindsym $mod+r mode "resize"
+
+
+# ==========================================
+# COLOR PALETTE DEFINITIONS
+# ==========================================
+
+# Grays & Neutrals
+set $black         #1a1a1a
+set $dark_gray     #282a36
+set $mid_gray      #44475a
+set $light_gray    #6272a4
+set $white         #f8f8f2
+
+# Primary & Secondary Colors
+set $red           #ff5555
+set $orange        #ffb86c
+set $yellow        #f1fa8c
+set $green         #50fa7b
+set $cyan          #8be9fd
+set $blue          #6272a4
+set $purple        #bd93f9
+set $magenta       #ff79c6
+
+# Muted/Pastel Variants
+set $muted_blue    #4c7899
+set $muted_green   #2aa198
+set $muted_red     #900000
+
+# ==========================================
+# HOW TO USE THEM (Example Setup)
+# ==========================================
+
+# Set border thickness
+default_border pixel 2
+default_floating_border pixel 3
+
+# Apply your new named colors to windows
+# class                 border        bground       text          indicator     child_border
+client.focused          $blue         $blue         $white        $blue         $blue
+client.unfocused        $dark_gray    $dark_gray    $light_gray   $black        $dark_gray
+client.focused_inactive $dark_gray    $dark_gray    $light_gray   $black        $dark_gray
+client.urgent           $red          $red          $white        $orange       $red
+
+# Reload / Restart / Exit i3
+bindsym $mod+Shift+c reload
+bindsym $mod+Shift+r restart
+bindsym $mod+Shift+z exit
+
+# Workspaces
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "10"
+
+bindsym $mod+1 workspace number $ws1
+bindsym $mod+2 workspace number $ws2
+bindsym $mod+3 workspace number $ws3
+bindsym $mod+4 workspace number $ws4
+bindsym $mod+5 workspace number $ws5
+bindsym $mod+6 workspace number $ws6
+bindsym $mod+7 workspace number $ws7
+bindsym $mod+8 workspace number $ws8
+bindsym $mod+9 workspace number $ws9
+bindsym $mod+0 workspace number $ws10
+
+bindsym $mod+Shift+1 move container to workspace number $ws1
+bindsym $mod+Shift+2 move container to workspace number $ws2
+bindsym $mod+Shift+3 move container to workspace number $ws3
+bindsym $mod+Shift+4 move container to workspace number $ws4
+bindsym $mod+Shift+5 move container to workspace number $ws5
+bindsym $mod+Shift+6 move container to workspace number $ws6
+bindsym $mod+Shift+7 move container to workspace number $ws7
+bindsym $mod+Shift+8 move container to workspace number $ws8
+bindsym $mod+Shift+9 move container to workspace number $ws9
+bindsym $mod+Shift+0 move container to workspace number $ws10
+
+# Color temp control
+exec --no-startup-id gammastep -O 4000
+bindsym $mod+x exec gammastep -x
+bindsym $mod+c exec gammastep -O 4000
+
+# Screenshots
+bindsym Print  exec --no-startup-id flameshot gui
+bindsym $mod+p exec --no-startup-id flameshot gui
+
+# Wallpaper
+exec_always --no-startup-id feh --bg-center ~/Pictures/wall/waves.jpeg
+
+# Brightness control
+bindsym XF86MonBrightnessDown exec brightnessctl set 5%-
+bindsym XF86MonBrightnessUp   exec brightnessctl set +5%
+
+# Power & lock
+bindsym $mod+Shift+o exec systemctl poweroff
+bindsym $mod+Shift+q exec i3lock
+bindsym $mod+Shift+p exec pavucontrol  # moved from v to avoid duplicate
+
+# Touchpad
+exec xinput set-prop 10 "libinput Tapping Enabled" 1
+exec xinput set-prop 10 "libinput Natural Scrolling Enabled" 1
+
+# Bar
+bar {
+    status_command i3blocks
+    font pango:Firacode Nerd Font 12
+    height 40
+    tray_output none
+    colors {
+        background         #222222
+        statusline         #dddddd
+        separator          #666666
+        focused_workspace  #4c7899 #285577 #ffffff
+        active_workspace   #333333 #5f676a #ffffff
+        inactive_workspace #333333 #222222 #888888
+        urgent_workspace   #2f343a #900000 #ffffff
+        binding_mode       #2f343a #900000 #ffffff
+    }
+}

@@ -1,0 +1,51 @@
+# O separador | será desenhado pela barra
+separator=true
+separator_block_width=20
+markup=pango
+
+# Bloco de Brilho
+[brightness]
+label=
+command=~/.config/i3blocks/scripts/brightness.sh
+interval=1
+
+# Bloco de Volume
+[volume]
+label= 
+command=~/.config/i3blocks/scripts/limitar_volume.sh
+interval=1
+
+# Bloco de Memória RAM
+[memory]
+command=~/.config/i3blocks/scripts/ram.sh
+interval=5
+
+# Bloco de CPU
+[cpu]
+label= 
+command=~/.config/i3blocks/scripts/cpu_usage
+interval=2
+
+# Temperatura
+[cpu_temp]
+command=~/.config/i3blocks/scripts/temperature.sh
+interval=5
+
+# Bloco de Bateria (o ícone é controlado pelo script)
+[battery]
+command=~/.config/i3blocks/scripts/battery.sh
+interval=10
+
+# Bloco de Rede (o ícone é controlado pelo script)
+[network]
+command=~/.config/i3blocks/scripts/network_status.sh
+interval=5
+
+# Bloco de Bluetooth (o ícone é controlado pelo script)
+[bluetooth]
+command=~/.config/i3blocks/scripts/bluetooth.sh
+interval=5
+
+[date]
+command=~/.config/i3blocks/scripts/date.sh
+interval=5
